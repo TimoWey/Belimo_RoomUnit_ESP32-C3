@@ -1,0 +1,10 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.espIdfPathWin": "C:\\Users\\Timo\\esp\\v5.4\\esp-idf",
+    "idf.openOcdConfigs": [
+        "board/esp32c3-builtin.cfg"
+    ],
+    "idf.toolsPathWin": "C:\\Users\\Timo\\.espressif",
+    "idf.portWin": "COM9",
+    "idf.flashType": "UART"
+}
