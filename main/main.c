@@ -13,14 +13,20 @@
 
 #define LED_GPIO GPIO_NUM_10
 #define TEMP_ADC_CHANNEL ADC_CHANNEL_2
-#define ADC_RAW_MAX 4095  // 12-bit ADC (2^12 - 1)
-#define VOLTAGE_MIN 0     // mV at 0°C
-#define VOLTAGE_MAX 2500  // mV at 50°C
-#define TEMP_MIN 0.0f     // Temperature at VOLTAGE_MIN
-#define TEMP_MAX 50.0f    // Temperature at VOLTAGE_MAX
+#define HUMIDITY_ADC_CHANNEL ADC_CHANNEL_3
+#define CO2_ADC_CHANNEL ADC_CHANNEL_4
+#define ADC_RAW_MAX 4095    // 12-bit ADC (2^12 - 1)
+#define VOLTAGE_MIN 0       // mV at 0°C, 0% Humidity, 0 ppm CO2
+#define VOLTAGE_MAX 2500    // mV at 50°C, 100% Humidity, 1000 ppm CO2
+#define TEMP_MIN 0.0f       // Temperature at VOLTAGE_MIN
+#define TEMP_MAX 50.0f      // Temperature at VOLTAGE_MAX
+#define HUMIDITY_MIN 0.0f   // Humidity at VOLTAGE_MIN
+#define HUMIDITY_MAX 100.0f // Humidity at VOLTAGE_MAX
+#define CO2_MIN 0.0f        // ppm at VOLTAGE_MIN
+#define CO2_MAX 2000.0f     // ppm at VOLTAGE_MAX
 
 // Filter settings
-#define FILTER_SIZE 16    // Increased from 1 to 16 samples
+#define FILTER_SIZE 16      // Increased from 1 to 16 samples
 #define SAMPLE_INTERVAL 100 // Decreased to 10ms between samples
 
 // Add these definitions
@@ -28,30 +34,40 @@
 #define WIFI_PASS "11vcwec2"
 #define MQTT_BROKER_URL "mqtt://192.168.0.68"
 #define MQTT_PORT 1883
-#define MQTT_TOPIC "sensors/temperature"
+#define MQTT_TOPIC_TEMP "sensors/temperature"
+#define MQTT_TOPIC_HUMIDITY "sensors/humidity"
+#define MQTT_TOPIC_CO2 "sensors/co2"
 
 static const char *TAG = "TEMP_SENSOR";
 static esp_mqtt_client_handle_t mqtt_client = NULL;
 
-// Function to get filtered ADC reading
-float get_filtered_voltage(adc_oneshot_unit_handle_t adc1_handle, adc_cali_handle_t cali_handle) {
+// Add this structure to store sensor readings
+typedef struct {
+    float temperature;
+    float humidity;
+    float co2;
+} sensor_readings_t;
+
+// Modify the get_filtered_voltage function to accept the channel as parameter
+float get_filtered_voltage(adc_oneshot_unit_handle_t adc1_handle, adc_cali_handle_t cali_handle, adc_channel_t channel) 
+{
     float sum = 0;
     
     // Take multiple readings
     for(int i = 0; i < FILTER_SIZE; i++) {
         int adc_raw;
         int voltage;
-        ESP_ERROR_CHECK(adc_oneshot_read(adc1_handle, TEMP_ADC_CHANNEL, &adc_raw));
+        ESP_ERROR_CHECK(adc_oneshot_read(adc1_handle, channel, &adc_raw));
         ESP_ERROR_CHECK(adc_cali_raw_to_voltage(cali_handle, adc_raw, &voltage));
         sum += voltage;
         vTaskDelay(pdMS_TO_TICKS(SAMPLE_INTERVAL));
     }
     
-    // Return average
     return sum / FILTER_SIZE;
 }
 
-void led_blink_task(void *pvParameters) {
+void led_blink_task(void *pvParameters) 
+{
     while(1) {
         gpio_set_level(LED_GPIO, 1);
         vTaskDelay(500 / portTICK_PERIOD_MS);
@@ -150,7 +166,60 @@ static void mqtt_init(void)
     ESP_ERROR_CHECK(esp_mqtt_client_start(mqtt_client));
 }
 
-// Modify app_main() to initialize WiFi and MQTT
+// Add new sensor reading task
+void sensor_reading_task(void *pvParameters) 
+{
+    adc_oneshot_unit_handle_t adc1_handle = *((adc_oneshot_unit_handle_t*)pvParameters);
+    
+    // ADC Calibration Init
+    adc_cali_handle_t adc1_cali_handle = NULL;
+    adc_cali_curve_fitting_config_t cali_config = {
+        .unit_id = ADC_UNIT_1,
+        .atten = ADC_ATTEN_DB_11,
+        .bitwidth = ADC_BITWIDTH_12,
+    };
+    ESP_ERROR_CHECK(adc_cali_create_scheme_curve_fitting(&cali_config, &adc1_cali_handle));
+
+    while (1) {
+        // Get readings for all sensors
+        float temp_voltage = get_filtered_voltage(adc1_handle, adc1_cali_handle, TEMP_ADC_CHANNEL);
+        float humidity_voltage = get_filtered_voltage(adc1_handle, adc1_cali_handle, HUMIDITY_ADC_CHANNEL);
+        float co2_voltage = get_filtered_voltage(adc1_handle, adc1_cali_handle, CO2_ADC_CHANNEL);
+        
+        // Convert voltages to sensor values
+        float temperature = (temp_voltage * (TEMP_MAX - TEMP_MIN)) / VOLTAGE_MAX + TEMP_MIN;
+        float humidity = (humidity_voltage * (HUMIDITY_MAX - HUMIDITY_MIN)) / VOLTAGE_MAX + HUMIDITY_MIN;
+        float co2 = (co2_voltage * (CO2_MAX - CO2_MIN)) / VOLTAGE_MAX + CO2_MIN;
+        
+        // Create JSON strings for MQTT
+        char temp_data[100], humidity_data[100], co2_data[100];
+        snprintf(temp_data, sizeof(temp_data), 
+                "{\"voltage\":%.2f,\"temperature\":%.1f}", 
+                temp_voltage/1000.0f, temperature);
+        snprintf(humidity_data, sizeof(humidity_data), 
+                "{\"voltage\":%.2f,\"humidity\":%.1f}", 
+                humidity_voltage/1000.0f, humidity);
+        snprintf(co2_data, sizeof(co2_data), 
+                "{\"voltage\":%.2f,\"co2\":%.1f}", 
+                co2_voltage/1000.0f, co2);
+        
+        // Publish to MQTT
+        if (mqtt_client != NULL) {
+            esp_mqtt_client_publish(mqtt_client, MQTT_TOPIC_TEMP, temp_data, 0, 1, 0);
+            esp_mqtt_client_publish(mqtt_client, MQTT_TOPIC_HUMIDITY, humidity_data, 0, 1, 0);
+            esp_mqtt_client_publish(mqtt_client, MQTT_TOPIC_CO2, co2_data, 0, 1, 0);
+            
+            // Print readings
+            ESP_LOGI(TAG, "Temperature: %.1f°C, Humidity: %.1f%%, CO2: %.1f ppm", 
+                    temperature, humidity, co2);
+        }
+        
+        // Wait 1 second before next reading
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+}
+
+// Main
 void app_main(void)
 {
     // Initialize NVS
@@ -179,58 +248,23 @@ void app_main(void)
     };
     ESP_ERROR_CHECK(adc_oneshot_new_unit(&init_config1, &adc1_handle));
 
-    // ADC Config
+    // ADC Config for all channels
     adc_oneshot_chan_cfg_t config = {
         .atten = ADC_ATTEN_DB_11,
         .bitwidth = ADC_BITWIDTH_12,
     };
     ESP_ERROR_CHECK(adc_oneshot_config_channel(adc1_handle, TEMP_ADC_CHANNEL, &config));
-
-    // ADC Calibration Init
-    adc_cali_handle_t adc1_cali_handle = NULL;
-    
-    adc_cali_curve_fitting_config_t cali_config = {
-        .unit_id = ADC_UNIT_1,
-        .atten = ADC_ATTEN_DB_11,
-        .bitwidth = ADC_BITWIDTH_12,
-    };
-    ESP_ERROR_CHECK(adc_cali_create_scheme_curve_fitting(&cali_config, &adc1_cali_handle));
-
-    // Initial reading to stabilize
-    get_filtered_voltage(adc1_handle, adc1_cali_handle);
+    ESP_ERROR_CHECK(adc_oneshot_config_channel(adc1_handle, HUMIDITY_ADC_CHANNEL, &config));
+    ESP_ERROR_CHECK(adc_oneshot_config_channel(adc1_handle, CO2_ADC_CHANNEL, &config));
 
     // Create LED blink task
     xTaskCreate(led_blink_task, "led_blink_task", 2048, NULL, 5, NULL);
+    
+    // Create sensor reading task
+    xTaskCreate(sensor_reading_task, "sensor_reading_task", 4096, &adc1_handle, 5, NULL);
 
+    // Main task can now sleep
     while (1) {
-        // Get filtered voltage reading
-        float voltage = get_filtered_voltage(adc1_handle, adc1_cali_handle);
-        int adc_raw;
-        adc_oneshot_read(adc1_handle, TEMP_ADC_CHANNEL, &adc_raw);
-        
-        // Convert voltage to temperature (0-2.5V maps to 0-50°C)
-        float temperature = (voltage * 50.0f) / VOLTAGE_MAX;
-        
-        // Create JSON string for MQTT
-        char mqtt_data[100];
-        snprintf(mqtt_data, sizeof(mqtt_data), 
-                "{\"adc_raw\":%d,\"voltage\":%.2f,\"temperature\":%.1f}", 
-                adc_raw, voltage/1000.0f, temperature);
-        
-        // Publish to MQTT
-        if (mqtt_client != NULL) {
-            int msg_id = esp_mqtt_client_publish(mqtt_client, MQTT_TOPIC, mqtt_data, 0, 1, 0);
-            if (msg_id != -1) {
-                ESP_LOGI(TAG, "Published: %s", mqtt_data);
-            }
-        } else {
-            ESP_LOGE(TAG, "MQTT client not initialized");
-        }
-        
-        // Print detailed readings
-        printf("ADC Raw: %d, Voltage: %.2fV, Temperature: %.1f°C\n", 
-               adc_raw, voltage/1000.0f, temperature);
-
-        vTaskDelay(pdMS_TO_TICKS(SAMPLE_INTERVAL));
+        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
