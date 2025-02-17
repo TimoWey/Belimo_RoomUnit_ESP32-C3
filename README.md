@@ -4,7 +4,7 @@ This project reads Temperature, Humidity, and CO2 levels from a Belimo Room Unit
 
 ## Hardware Requirements
 
-- Seeed XIAO ESP32-C3 board
+- Seeed XIAO ESP32-C3 board (https://wiki.seeedstudio.com/XIAO_ESP32C3_Getting_Started/)
 - Belimo Room Unit sensor
 - Power supply (USB or external)
 - Connecting wires
