@@ -5,6 +5,10 @@
         "board/esp32c3-builtin.cfg"
     ],
     "idf.toolsPathWin": "C:\\Users\\Timo\\.espressif",
-    "idf.portWin": "COM9",
-    "idf.flashType": "UART"
+    "idf.portWin": "COM5",
+    "idf.flashType": "UART",
+    "files.associations": {
+        "esp_log.h": "c",
+        "mqtt_client.h": "c"
+    }
 }

@@ -1,42 +1,53 @@
+/*
+ * @file main.c
+ * @brief Main file for the ESP32 microcontroller
+ * 
+ * This file contains the main entry point for the ESP32 microcontroller
+ * and the initialization and configuration of the WiFi and MQTT clients.
+ */
+
+#include <stdbool.h>
 #include <stdio.h>
 #include "driver/gpio.h"
 #include "esp_adc/adc_oneshot.h"
 #include "esp_adc/adc_cali.h"
 #include "esp_adc/adc_cali_scheme.h"
-#include "freertos/FreeRTOS.h"
+#include "freertos/FreeRTOS.h"                      // IWYU pragma: keep
 #include "freertos/task.h"
 #include "esp_wifi.h"
 #include "esp_event.h"
+#include "hal/adc_types.h"
 #include "nvs_flash.h"
 #include "mqtt_client.h"
 #include "esp_log.h"
 
-#define LED_GPIO GPIO_NUM_10
-#define TEMP_ADC_CHANNEL ADC_CHANNEL_2
-#define HUMIDITY_ADC_CHANNEL ADC_CHANNEL_3
-#define CO2_ADC_CHANNEL ADC_CHANNEL_4
-#define ADC_RAW_MAX 4095    // 12-bit ADC (2^12 - 1)
-#define VOLTAGE_MIN 0       // mV at 0°C, 0% Humidity, 0 ppm CO2
-#define VOLTAGE_MAX 2500    // mV at 50°C, 100% Humidity, 1000 ppm CO2
-#define TEMP_MIN 0.0f       // Temperature at VOLTAGE_MIN
-#define TEMP_MAX 50.0f      // Temperature at VOLTAGE_MAX
-#define HUMIDITY_MIN 0.0f   // Humidity at VOLTAGE_MIN
-#define HUMIDITY_MAX 100.0f // Humidity at VOLTAGE_MAX
-#define CO2_MIN 0.0f        // ppm at VOLTAGE_MIN
-#define CO2_MAX 2000.0f     // ppm at VOLTAGE_MAX
+#define LED_BLINK_ENABLED false                     // Set to TRUE to enable LED blinking
+#define LED_GPIO GPIO_NUM_10                        // Set your LED GPIO pin
+#define TEMP_ADC_CHANNEL ADC_CHANNEL_2              // Set your temperature ADC channel
+#define HUMIDITY_ADC_CHANNEL ADC_CHANNEL_3          // Set your humidity ADC channel
+#define CO2_ADC_CHANNEL ADC_CHANNEL_4               // Set your CO2 ADC channel
+#define ADC_RAW_MAX 4095                            // 12-bit ADC (2^12 - 1)
+#define VOLTAGE_MIN 0                               // mV at 0°C, 0% Humidity, 0 ppm CO2
+#define VOLTAGE_MAX 2500                            // mV at 50°C, 100% Humidity, 1000 ppm CO2
+#define TEMP_MIN 0.0f                               // Temperature at VOLTAGE_MIN
+#define TEMP_MAX 50.0f                              // Temperature at VOLTAGE_MAX
+#define HUMIDITY_MIN 0.0f                           // Humidity at VOLTAGE_MIN
+#define HUMIDITY_MAX 100.0f                         // Humidity at VOLTAGE_MAX
+#define CO2_MIN 0.0f                                // ppm at VOLTAGE_MIN
+#define CO2_MAX 2000.0f                             // ppm at VOLTAGE_MAX
 
 // Filter settings
-#define FILTER_SIZE 16      // Increased from 1 to 16 samples
-#define SAMPLE_INTERVAL 100 // Decreased to 10ms between samples
+#define FILTER_SIZE 16                              // Increased from 1 to 16 samples
+#define SAMPLE_INTERVAL 100                         // Decreased to 10ms between samples
 
 // Add these definitions
-#define WIFI_SSID "ItHurtsWhenIP"
-#define WIFI_PASS "11vcwec2"
-#define MQTT_BROKER_URL "mqtt://192.168.0.68"
-#define MQTT_PORT 1883
-#define MQTT_TOPIC_TEMP "sensors/temperature"
-#define MQTT_TOPIC_HUMIDITY "sensors/humidity"
-#define MQTT_TOPIC_CO2 "sensors/co2"
+#define WIFI_SSID CONFIG_EXAMPLE_WIFI_SSID          // Set your WiFi SSID
+#define WIFI_PASS CONFIG_EXAMPLE_WIFI_PASSWORD      // Set your WiFi password
+#define MQTT_BROKER_URL "mqtt://192.168.0.68"       // Set your MQTT broker URL
+#define MQTT_PORT 1883                              // Set your MQTT broker port
+#define MQTT_TOPIC_TEMP "sensors/temperature_2"     // Set your MQTT topic for temperature
+#define MQTT_TOPIC_HUMIDITY "sensors/humidity_2"    // Set your MQTT topic for humidity
+#define MQTT_TOPIC_CO2 "sensors/co2_2"              // Set your MQTT topic for CO2
 
 static const char *TAG = "TEMP_SENSOR";
 static esp_mqtt_client_handle_t mqtt_client = NULL;
@@ -49,8 +60,7 @@ typedef struct {
 } sensor_readings_t;
 
 // Modify the get_filtered_voltage function to accept the channel as parameter
-float get_filtered_voltage(adc_oneshot_unit_handle_t adc1_handle, adc_cali_handle_t cali_handle, adc_channel_t channel) 
-{
+float get_filtered_voltage(adc_oneshot_unit_handle_t adc1_handle, adc_cali_handle_t cali_handle, adc_channel_t channel) {
     float sum = 0;
     
     // Take multiple readings
@@ -62,12 +72,10 @@ float get_filtered_voltage(adc_oneshot_unit_handle_t adc1_handle, adc_cali_handl
         sum += voltage;
         vTaskDelay(pdMS_TO_TICKS(SAMPLE_INTERVAL));
     }
-    
     return sum / FILTER_SIZE;
 }
 
-void led_blink_task(void *pvParameters) 
-{
+void led_blink_task(void *pvParameters) {
     while(1) {
         gpio_set_level(LED_GPIO, 1);
         vTaskDelay(500 / portTICK_PERIOD_MS);
@@ -76,8 +84,7 @@ void led_blink_task(void *pvParameters)
     }
 }
 
-static void wait_for_wifi(void)
-{
+static void wait_for_wifi(void) {
     // Wait for WiFi connection
     int retry = 0;
     while (retry < 10) {
@@ -94,15 +101,17 @@ static void wait_for_wifi(void)
     ESP_LOGE(TAG, "Failed to connect to WiFi!");
 }
 
-static void wifi_init(void)
-{
+static void wifi_init(void) {
+    /* Initialize the network interface */
     ESP_ERROR_CHECK(esp_netif_init());
     ESP_ERROR_CHECK(esp_event_loop_create_default());
     esp_netif_create_default_wifi_sta();
 
+    /* Initialize the WiFi driver */
     wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
     ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
+    /* Configure the WiFi connection */
     wifi_config_t wifi_config = {
         .sta = {
             .ssid = WIFI_SSID,
@@ -119,8 +128,7 @@ static void wifi_init(void)
     wait_for_wifi();
 }
 
-static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
-{
+static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data) {
     esp_mqtt_event_handle_t event = event_data;
     switch (event->event_id) {
         case MQTT_EVENT_CONNECTED:
@@ -167,15 +175,15 @@ static void mqtt_init(void)
 }
 
 // Add new sensor reading task
-void sensor_reading_task(void *pvParameters) 
-{
+void sensor_reading_task(void *pvParameters) {
+    /* Initialize the ADC unit */
     adc_oneshot_unit_handle_t adc1_handle = *((adc_oneshot_unit_handle_t*)pvParameters);
     
-    // ADC Calibration Init
+    /* Initialize the ADC calibration */
     adc_cali_handle_t adc1_cali_handle = NULL;
     adc_cali_curve_fitting_config_t cali_config = {
         .unit_id = ADC_UNIT_1,
-        .atten = ADC_ATTEN_DB_11,
+        .atten = ADC_ATTEN_DB_12,
         .bitwidth = ADC_BITWIDTH_12,
     };
     ESP_ERROR_CHECK(adc_cali_create_scheme_curve_fitting(&cali_config, &adc1_cali_handle));
@@ -213,9 +221,6 @@ void sensor_reading_task(void *pvParameters)
             ESP_LOGI(TAG, "Temperature: %.1f°C, Humidity: %.1f%%, CO2: %.1f ppm", 
                     temperature, humidity, co2);
         }
-        
-        // Wait 1 second before next reading
-        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
 
@@ -250,7 +255,7 @@ void app_main(void)
 
     // ADC Config for all channels
     adc_oneshot_chan_cfg_t config = {
-        .atten = ADC_ATTEN_DB_11,
+        .atten = ADC_ATTEN_DB_12,
         .bitwidth = ADC_BITWIDTH_12,
     };
     ESP_ERROR_CHECK(adc_oneshot_config_channel(adc1_handle, TEMP_ADC_CHANNEL, &config));
@@ -258,7 +263,9 @@ void app_main(void)
     ESP_ERROR_CHECK(adc_oneshot_config_channel(adc1_handle, CO2_ADC_CHANNEL, &config));
 
     // Create LED blink task
-    xTaskCreate(led_blink_task, "led_blink_task", 2048, NULL, 5, NULL);
+    if (LED_BLINK_ENABLED) {
+        xTaskCreate(led_blink_task, "led_blink_task", 2048, NULL, 5, NULL);
+    }
     
     // Create sensor reading task
     xTaskCreate(sensor_reading_task, "sensor_reading_task", 4096, &adc1_handle, 5, NULL);
