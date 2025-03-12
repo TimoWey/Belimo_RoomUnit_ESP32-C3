@@ -138,7 +138,7 @@
 			(pin input line
 				(at 0 7.62 0)
 				(length 2.54)
-				(name "VCC_OUT"
+				(name "AO1"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -156,7 +156,7 @@
 			(pin input line
 				(at 0 5.08 0)
 				(length 2.54)
-				(name "AO1"
+				(name "AO2"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -174,7 +174,7 @@
 			(pin input line
 				(at 0 2.54 0)
 				(length 2.54)
-				(name "AO2"
+				(name "AO3"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -192,7 +192,7 @@
 			(pin input line
 				(at 0 0 0)
 				(length 2.54)
-				(name "AO3"
+				(name ""
 					(effects
 						(font
 							(size 1.27 1.27)
