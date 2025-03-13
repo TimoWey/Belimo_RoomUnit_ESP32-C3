@@ -6676,7 +6676,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "1k"
+		(property "Value" "1.6k"
 			(at 234.95 138.4299 0)
 			(effects
 				(font
@@ -7426,7 +7426,8 @@
 	)
 	(symbol
 		(lib_id "Comparator:LMV393")
-		(at 71.12 49.53 180)
+		(at 71.12 49.53 0)
+		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7434,7 +7435,7 @@
 		(dnp no)
 		(uuid "e9cd537a-cce4-4480-85c8-66acecd0f0a8")
 		(property "Reference" "U1"
-			(at 67.056 54.102 0)
+			(at 67.056 44.958 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7442,7 +7443,7 @@
 			)
 		)
 		(property "Value" "LMV393"
-			(at 68.834 56.642 0)
+			(at 68.834 42.418 0)
 			(effects
 				(font
 					(size 1.27 1.27)
