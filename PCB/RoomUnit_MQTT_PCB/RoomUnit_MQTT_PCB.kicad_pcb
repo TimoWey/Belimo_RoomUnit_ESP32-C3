@@ -7563,7 +7563,7 @@
 		(layer "Edge.Cuts")
 		(uuid "e499f44b-677f-434d-b816-76fdcc04e1ae")
 	)
-	(gr_text "RoomUnit MQTT HAT\nby WEY ENIGNEERING"
+	(gr_text "Room Unit MQTT HAT\nby WEY ENIGNEERING"
 		(at 183 65.2 90)
 		(layer "F.Cu")
 		(uuid "2978c717-c711-4ccc-8b18-3e0cc1af98a6")
@@ -7602,7 +7602,7 @@
 			(justify left bottom)
 		)
 	)
-	(gr_text "RoomUnit MQTT HAT\nby WEY ENIGNEERING"
+	(gr_text "Room Unit MQTT HAT\nby WEY ENIGNEERING"
 		(at 183 65.2 90)
 		(layer "F.Mask")
 		(uuid "ad331de9-f913-4236-9817-7bb8a0c816a9")
