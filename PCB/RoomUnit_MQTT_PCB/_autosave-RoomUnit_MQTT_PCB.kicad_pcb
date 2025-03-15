@@ -224,7 +224,7 @@
 		(path "/97907a06-8557-4f4d-9e34-7e5660e38291")
 		(sheetname "/")
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
-		(attr smd)
+		(attr smd exclude_from_bom)
 		(fp_line
 			(start -0.227064 -0.735)
 			(end 0.227064 -0.735)
@@ -1660,7 +1660,7 @@
 		(path "/b8d15540-f604-4419-90fc-205d53844080")
 		(sheetname "/")
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
-		(attr smd exclude_from_bom)
+		(attr smd)
 		(fp_line
 			(start -0.227064 -0.735)
 			(end 0.227064 -0.735)
@@ -2086,7 +2086,7 @@
 		(path "/c7bcc86b-ae14-4a65-a898-5bbe2e95afb8")
 		(sheetname "/")
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
-		(attr smd)
+		(attr smd exclude_from_bom)
 		(fp_line
 			(start -0.227064 -0.735)
 			(end 0.227064 -0.735)
@@ -2883,7 +2883,7 @@
 		(path "/1e9b75f7-e9b1-4452-885e-837f677e6c2d")
 		(sheetname "/")
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
-		(attr smd exclude_from_bom)
+		(attr smd)
 		(fp_line
 			(start -0.227064 -0.735)
 			(end 0.227064 -0.735)
@@ -4070,7 +4070,7 @@
 		(path "/305df635-446c-496c-bffc-8e486cf64a05")
 		(sheetname "/")
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
-		(attr smd exclude_from_bom)
+		(attr smd)
 		(fp_line
 			(start -0.227064 -0.735)
 			(end 0.227064 -0.735)
@@ -5607,7 +5607,7 @@
 		(path "/6c4ad08e-0a89-4a89-aeaa-f05970a540f9")
 		(sheetname "/")
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
-		(attr smd)
+		(attr smd exclude_from_bom)
 		(fp_line
 			(start -0.227064 -0.735)
 			(end 0.227064 -0.735)

@@ -7,7 +7,7 @@ Comment,Designator,Footprint,LCSC,Quantity
 33k,R15,R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C141696,1
 1n,C2,C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,C15177,1
 1.2k,R17,R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C17379,1
-10k,"R21,R22,R23,R5",R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C17414,4
+10k,"R18,R19,R20,R5",R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C17414,4
 15k,R3,R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C17475,1
 0,"R13,R14",R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C17477,2
 4.7k,"R1,R4,R8",R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,C17673,3
