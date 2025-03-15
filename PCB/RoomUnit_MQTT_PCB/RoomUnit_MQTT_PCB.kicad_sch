@@ -7459,7 +7459,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_APV_APH0420"
+		(property "Footprint" "Inductor_SMD:L_Chilisin_BMRA00040420"
 			(at 218.44 97.79 0)
 			(effects
 				(font

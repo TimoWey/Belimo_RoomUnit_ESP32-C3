@@ -208,6 +208,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C17414"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "6cb48d85-cccc-48ba-bccd-56d0cdc7ed8c")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/97907a06-8557-4f4d-9e34-7e5660e38291")
 		(sheetname "/")
@@ -627,7 +639,7 @@
 		(path "/0137ef70-a047-4464-b068-2504a6cf9397")
 		(sheetname "/")
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
-		(attr through_hole)
+		(attr through_hole exclude_from_bom)
 		(fp_text user "${REFERENCE}"
 			(at 1.2 -3.844 180)
 			(unlocked yes)
@@ -1632,11 +1644,23 @@
 				)
 			)
 		)
+		(property "LCSC" "C17414"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "6796e8b0-1b52-488c-bbb1-a33b06046bf7")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/b8d15540-f604-4419-90fc-205d53844080")
 		(sheetname "/")
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
-		(attr smd)
+		(attr smd exclude_from_bom)
 		(fp_line
 			(start -0.227064 -0.735)
 			(end 0.227064 -0.735)
@@ -2046,6 +2070,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C17414"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "15d68f61-ed01-4184-b0dd-02ca8767cf48")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/c7bcc86b-ae14-4a65-a898-5bbe2e95afb8")
 		(sheetname "/")
@@ -2252,7 +2288,7 @@
 		(path "/66478394-d8d2-42b6-902a-054ea5125813")
 		(sheetname "/")
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
-		(attr through_hole)
+		(attr through_hole exclude_from_bom)
 		(fp_text user "${REFERENCE}"
 			(at -1 -3.344 180)
 			(unlocked yes)
@@ -2831,11 +2867,23 @@
 				)
 			)
 		)
+		(property "LCSC" "C17414"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "9d28a8ab-b9e6-40c3-a6a7-11bc61362b86")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/1e9b75f7-e9b1-4452-885e-837f677e6c2d")
 		(sheetname "/")
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
-		(attr smd)
+		(attr smd exclude_from_bom)
 		(fp_line
 			(start -0.227064 -0.735)
 			(end 0.227064 -0.735)
@@ -3404,16 +3452,16 @@
 			)
 		)
 	)
-	(footprint "Inductor_SMD:L_APV_APH0420"
+	(footprint "Inductor_SMD:L_Chilisin_BMRA00040420"
 		(layer "F.Cu")
 		(uuid "91c40c52-4985-45db-9dde-5469425192b8")
 		(at 166.248 51.74)
-		(descr "Inductor, APV, APH0420, 4.2x4.2x1.8mm, (http://en.apvind.com/public/upload/20240408/996aafa961154ed753e4983e7eb80fa7.pdf), generated with kicad-footprint-generator gen_inductor.py")
-		(tags "Inductor molded power shielded")
+		(descr "Inductor, Chilisin, BMRA00040420, 4.6x4.1x2.0mm, (https://www.chilisin.com/upload/media/product/power/file/BMRx_Series.pdf), generated with kicad-footprint-generator gen_inductor.py")
+		(tags "Inductor bmrx mchi")
 		(property "Reference" "L1"
-			(at 0.0508 4.51 180)
+			(at 0 4.46 0)
 			(layer "F.SilkS")
-			(uuid "baffa851-0771-45ae-b2b5-55e43289cac7")
+			(uuid "f6449381-76fd-469d-8c0e-13ee252988a3")
 			(effects
 				(font
 					(size 1 1)
@@ -3422,9 +3470,9 @@
 			)
 		)
 		(property "Value" "10u"
-			(at 0 3.1 0)
+			(at 0 3.05 0)
 			(layer "F.Fab")
-			(uuid "be471b33-2563-4e97-8d27-e7987c2e4828")
+			(uuid "2b2b0141-0093-40cf-993e-72f45107cafe")
 			(effects
 				(font
 					(size 1 1)
@@ -3436,7 +3484,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "08cb74e7-668e-4bbb-ac39-05fd271c4e93")
+			(uuid "650c27b8-f5ae-4146-b76e-f08d5798c980")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3448,7 +3496,7 @@
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "784fa5cd-0c42-4ed6-9b39-31324e7ea3d8")
+			(uuid "ae162fc5-e974-4f69-8cc0-dec9aed6d503")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3456,11 +3504,11 @@
 				)
 			)
 		)
-		(property "LCSC" "C1329533"
+		(property "LCSC" "C133195"
 			(at 0 0 0)
 			(layer "F.SilkS")
 			(hide yes)
-			(uuid "601996a4-2330-4986-809c-0cfd0ccced5a")
+			(uuid "40af8f71-656a-4b5d-bc02-874b47a75799")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3474,144 +3522,144 @@
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
 		(attr smd)
 		(fp_line
-			(start -2.36 -2.36)
-			(end -2.36 -1.51)
+			(start -2.56 -2.31)
+			(end -2.56 -1.51)
 			(stroke
 				(width 0.12)
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "42736f93-857b-4030-9988-9136b7b603f7")
+			(uuid "48d60766-69ee-4b8e-a540-5631a6afd62d")
 		)
 		(fp_line
-			(start -2.36 -2.36)
-			(end 2.36 -2.36)
+			(start -2.56 -2.31)
+			(end 2.56 -2.31)
 			(stroke
 				(width 0.12)
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "09fac64c-ec52-4665-8e43-15590cb4c054")
+			(uuid "7a813b45-230e-4ab2-bcf0-2b041fdc8767")
 		)
 		(fp_line
-			(start -2.36 2.36)
-			(end -2.36 1.51)
+			(start -2.56 2.31)
+			(end -2.56 1.51)
 			(stroke
 				(width 0.12)
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "f5ec2604-fae0-4424-848f-3575af3d6275")
+			(uuid "77700589-7b0d-4308-84d2-facd51c80586")
 		)
 		(fp_line
-			(start -2.36 2.36)
-			(end 2.36 2.36)
+			(start -2.56 2.31)
+			(end 2.56 2.31)
 			(stroke
 				(width 0.12)
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "eefd2ca1-b021-42e3-b386-d2ad44b0ee99")
+			(uuid "7397eef9-e6d6-4773-86c9-cf5b51356311")
 		)
 		(fp_line
-			(start 2.36 -2.36)
-			(end 2.36 -1.51)
+			(start 2.56 -2.31)
+			(end 2.56 -1.51)
 			(stroke
 				(width 0.12)
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "9257717f-af21-4981-aa8d-3d9b9ec8cde6")
+			(uuid "a6226e82-3317-4ac8-a907-38bbefa1f468")
 		)
 		(fp_line
-			(start 2.36 2.36)
-			(end 2.36 1.51)
+			(start 2.56 2.31)
+			(end 2.56 1.51)
 			(stroke
 				(width 0.12)
 				(type solid)
 			)
 			(layer "F.SilkS")
-			(uuid "20ac5ad0-2100-4210-a111-8cb936a673a3")
+			(uuid "e09f0dcb-a1d5-4c76-b45f-bd4170bf3fda")
 		)
 		(fp_line
-			(start -2.85 -2.35)
-			(end -2.85 2.35)
+			(start -2.85 -2.3)
+			(end -2.85 2.3)
 			(stroke
 				(width 0.05)
 				(type solid)
 			)
 			(layer "F.CrtYd")
-			(uuid "7f56a393-f232-40ee-afcf-d7e60ca7dfab")
+			(uuid "249f982a-a812-405b-a014-3f2fe8dd5ea8")
 		)
 		(fp_line
-			(start -2.85 2.35)
-			(end 2.85 2.35)
+			(start -2.85 2.3)
+			(end 2.85 2.3)
 			(stroke
 				(width 0.05)
 				(type solid)
 			)
 			(layer "F.CrtYd")
-			(uuid "bab421de-b6d8-4b98-a0da-c0cc03676ad1")
+			(uuid "bac62b8a-8656-4948-b4f6-cb6edb88302a")
 		)
 		(fp_line
-			(start 2.85 -2.35)
-			(end -2.85 -2.35)
+			(start 2.85 -2.3)
+			(end -2.85 -2.3)
 			(stroke
 				(width 0.05)
 				(type solid)
 			)
 			(layer "F.CrtYd")
-			(uuid "bf267312-2a40-43c9-b9a7-019697f030ee")
+			(uuid "5d2ad1c2-ca01-4156-b6aa-88da1005dfcf")
 		)
 		(fp_line
-			(start 2.85 2.35)
-			(end 2.85 -2.35)
+			(start 2.85 2.3)
+			(end 2.85 -2.3)
 			(stroke
 				(width 0.05)
 				(type solid)
 			)
 			(layer "F.CrtYd")
-			(uuid "310a0715-4b34-45ec-827b-bafd2a4c034c")
+			(uuid "b1e78515-066e-47c2-94ef-e5aba9da4760")
 		)
 		(fp_line
-			(start -2.1 -2.1)
-			(end -2.1 2.1)
+			(start -2.3 -2.05)
+			(end -2.3 2.05)
 			(stroke
 				(width 0.1)
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "148ae09a-d1d2-4d9d-a5bd-31975d887c69")
+			(uuid "12d71a68-30de-43c6-9d8c-a054e1b24021")
 		)
 		(fp_line
-			(start -2.1 2.1)
-			(end 2.1 2.1)
+			(start -2.3 2.05)
+			(end 2.3 2.05)
 			(stroke
 				(width 0.1)
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "b040ef8e-59a8-486b-bc10-bb6e0916e36a")
+			(uuid "448b6fd0-1435-4cfd-9ac8-0b2f9cac5c12")
 		)
 		(fp_line
-			(start 2.1 -2.1)
-			(end -2.1 -2.1)
+			(start 2.3 -2.05)
+			(end -2.3 -2.05)
 			(stroke
 				(width 0.1)
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "1af8d632-560f-4777-87c4-f81e89227777")
+			(uuid "ad7cf515-31d8-4b2f-98e0-fe1a0c72c500")
 		)
 		(fp_line
-			(start 2.1 2.1)
-			(end 2.1 -2.1)
+			(start 2.3 2.05)
+			(end 2.3 -2.05)
 			(stroke
 				(width 0.1)
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "e6aaf5b5-3b7b-40a4-951f-6392d7ad7ac2")
+			(uuid "d62e9ca7-337b-4e77-90e8-4d7e7b60f6ed")
 		)
 		(fp_text user "${REFERENCE}"
 			(at 0 0 0)
@@ -3645,7 +3693,7 @@
 			(uuid "53e55687-c698-442a-bc95-0a956894b3a5")
 		)
 		(embedded_fonts no)
-		(model "${KICAD8_3DMODEL_DIR}/Inductor_SMD.3dshapes/L_APV_APH0420.wrl"
+		(model "${KICAD9_3DMODEL_DIR}/Inductor_SMD.3dshapes/L_Chilisin_BMRA00040420.wrl"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -4006,11 +4054,23 @@
 				)
 			)
 		)
+		(property "LCSC" "C17414"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "f0aacf01-4641-467b-becd-f73269af30bb")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/305df635-446c-496c-bffc-8e486cf64a05")
 		(sheetname "/")
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
-		(attr smd)
+		(attr smd exclude_from_bom)
 		(fp_line
 			(start -0.227064 -0.735)
 			(end 0.227064 -0.735)
@@ -4211,7 +4271,7 @@
 		(path "/aad3e6fc-37ce-45d3-8e4a-f3da74b4f103")
 		(sheetname "/")
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
-		(attr through_hole)
+		(attr through_hole exclude_from_bom)
 		(fp_text user "MPS"
 			(at 3 11 0)
 			(unlocked yes)
@@ -5531,6 +5591,18 @@
 				)
 			)
 		)
+		(property "LCSC" "C17414"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "a0844c73-af37-44e5-b8df-071ffb9d4fd2")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property ki_fp_filters "R_*")
 		(path "/6c4ad08e-0a89-4a89-aeaa-f05970a540f9")
 		(sheetname "/")
@@ -5995,7 +6067,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C544665"
+		(property "LCSC" "C7984"
 			(at 0 0 0)
 			(layer "F.SilkS")
 			(hide yes)
@@ -6008,7 +6080,7 @@
 			)
 		)
 		(property ki_fp_filters "SOIC*3.9x4.9mm*P1.27mm* TSSOP*4.4x3mm*P0.65mm* VSSOP*3x3mm*P0.65mm* VSSOP*2.3x2mm*P0.5mm*")
-		(path "/e9cd537a-cce4-4480-85c8-66acecd0f0a8")
+		(path "/7f5c5266-7718-431f-8a1a-383595d1e307")
 		(sheetname "/")
 		(sheetfile "RoomUnit_MQTT_PCB.kicad_sch")
 		(attr smd)
@@ -7640,7 +7712,7 @@
 			(extension_offset 0.5)
 			(keep_text_aligned yes)
 		)
-		(gr_text "60.0000 mm"
+		(gr_text "2362.2047 mils"
 			(at 146.2 70 90)
 			(layer "F.Cu")
 			(uuid "30c67849-dae4-431d-8ae0-fa84f338c8a9")
@@ -7677,7 +7749,7 @@
 			(extension_offset 0.5)
 			(keep_text_aligned yes)
 		)
-		(gr_text "18.3 mm"
+		(gr_text "720.5 mils"
 			(at 167 107 0)
 			(layer "F.Cu")
 			(uuid "5593e481-0f6f-4ca6-804f-79593af02112")
@@ -7714,7 +7786,7 @@
 			(extension_offset 0.5)
 			(keep_text_aligned yes)
 		)
-		(gr_text "8.0 mm"
+		(gr_text "315.0 mils"
 			(at 154 107 0)
 			(layer "F.Cu")
 			(uuid "b50b9f7e-fef7-416b-b222-f28b9403a2fc")
@@ -7751,7 +7823,7 @@
 			(extension_offset 0.5)
 			(keep_text_aligned yes)
 		)
-		(gr_text "34.3000 mm"
+		(gr_text "1350.3937 mils"
 			(at 167.15 36.7 0)
 			(layer "F.Cu")
 			(uuid "cd3a696f-70cd-43a6-879f-20dade1ba70e")
@@ -7788,7 +7860,7 @@
 			(extension_offset 0.5)
 			(keep_text_aligned yes)
 		)
-		(gr_text "8.0 mm"
+		(gr_text "313.0 mils"
 			(at 180.473743 107 0)
 			(layer "F.Cu")
 			(uuid "d3629139-84c0-49d6-8835-963284cb6524")
@@ -9982,28 +10054,28 @@
 		(uuid "7a59c2f2-c5da-4530-8495-24a01c40ddc5")
 	)
 	(segment
-		(start 168.098 51.74)
-		(end 168.098 49.6475)
-		(width 0.2)
+		(start 168.098 49.6475)
+		(end 167.3855 48.935)
+		(width 0.635)
 		(layer "F.Cu")
 		(net 15)
-		(uuid "8b1cee4c-f624-42e5-8de2-a3b0ebd2307f")
+		(uuid "bdc80cad-67f0-4b96-9bf6-67b0b2f97827")
+	)
+	(segment
+		(start 168.098 51.74)
+		(end 168.098 49.6475)
+		(width 0.635)
+		(layer "F.Cu")
+		(net 15)
+		(uuid "be463f2c-21eb-4913-a167-9b213a5f6ea7")
 	)
 	(segment
 		(start 167.3855 48.935)
 		(end 167.3855 48.118)
-		(width 0.2)
+		(width 0.635)
 		(layer "F.Cu")
 		(net 15)
-		(uuid "e2506ead-e72b-48ec-a895-e26030aba057")
-	)
-	(segment
-		(start 168.098 49.6475)
-		(end 167.3855 48.935)
-		(width 0.2)
-		(layer "F.Cu")
-		(net 15)
-		(uuid "f4d968f4-d41d-40dc-8c27-cb4fc48d11d5")
+		(uuid "d43f85c5-92c5-48be-92b6-c91a99d23031")
 	)
 	(segment
 		(start 179.8 82.8)
